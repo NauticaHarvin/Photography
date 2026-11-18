@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nautica Photography</title>
+    <meta
+      name="description"
+      content="Chicago photographer: creators, brand sessions, events, and portraits."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===== Tokens: "Lake Michigan morning" ===== */
+      :root {
+        --fog: #e9edee; /* page background */
+        --ink: #1c2a31; /* text */
+        --lake: #3d6b7d; /* links, active states */
+        --prairie: #b88a3e; /* one warm accent */
+        --stone: #8d989c; /* muted text */
+        --tile: #d3dadc; /* empty photo tiles */
+        --gutter: clamp(16px, 4vw, 48px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --fog: #142026;
+          --ink: #e4eaec;
+          --lake: #7fb0c2;
+          --prairie: #d4a75a;
+          --stone: #8d9a9f;
+          --tile: #22323a;
+        }
+      }
+      :root[data-theme="dark"] {
+        --fog: #142026;
+        --ink: #e4eaec;
+        --lake: #7fb0c2;
+        --prairie: #d4a75a;
+        --stone: #8d9a9f;
+        --tile: #22323a;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      body {
+        background: var(--fog);
+        color: var(--ink);
+        font-family: "Archivo", system-ui, sans-serif;
+        font-variation-settings: "wdth" 100;
+        font-size: 17px;
+        line-height: 1.55;
+      }
+      a {
+        color: var(--lake);
+      }
+      :focus-visible {
+        outline: 2px solid var(--prairie);
+        outline-offset: 3px;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      /* ===== Nav ===== */
+      .nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px var(--gutter);
+        color: #fff;
+      }
+      .nav .name {
+        font-weight: 700;
+        font-variation-settings: "wdth" 115;
+        text-decoration: none;
+        color: inherit;
+      }
+      .nav ul {
+        display: flex;
+        gap: 22px;
+        list-style: none;
+      }
+      .nav ul a {
+        color: inherit;
+        text-decoration: none;
+        font-size: 15px;
+      }
+      .nav ul a:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== Hero: the city half and the wild half ===== */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 92vh;
+        position: relative;
+      }
+      .hero figure {
+        position: relative;
+        overflow: hidden;
+        background: #2a3a42;
+      }
+      .hero figure img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero figure::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(10, 18, 22, 0.75),
+          rgba(10, 18, 22, 0.1) 55%
+        );
+      }
+      .hero h1 {
+        position: absolute;
+        bottom: clamp(28px, 6vw, 72px);
+        z-index: 2;
+        color: #fff;
+        font-size: clamp(34px, 6.2vw, 96px);
+        line-height: 0.95;
+        font-weight: 750;
+        letter-spacing: -0.02em;
+      }
+      .hero .city h1 {
+        right: clamp(10px, 1.5vw, 24px);
+        text-align: right;
+        font-variation-settings: "wdth" 70;
+      }
+      .hero .wild h1 {
+        left: clamp(10px, 1.5vw, 24px);
+        font-variation-settings: "wdth" 125;
+        font-weight: 300;
+      }
+      .hero .seam {
+        position: absolute;
+        top: 18%;
+        bottom: 18%;
+        left: 50%;
+        width: 2px;
+        background: rgba(255, 255, 255, 0.85); /* hero divider line */
+        z-index: 3;
+        transform: translateX(-1px);
+      }
+
+      /* ===== Sections ===== */
+      section {
+        padding: clamp(56px, 9vw, 112px) var(--gutter);
+      }
+      .intro {
+        max-width: 62ch;
+      }
+      .intro p {
+        font-size: clamp(19px, 2vw, 23px);
+      }
+      .intro p + p {
+        margin-top: 1em;
+        font-size: 17px;
+        color: var(--stone);
+      }
+
+      h2 {
+        font-size: clamp(28px, 3.6vw, 44px);
+        font-variation-settings: "wdth" 112;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      /* ===== Gallery ===== */
+      .gallery-head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px 32px;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .tabs button {
+        font: inherit;
+        font-size: 15px;
+        cursor: pointer;
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--stone);
+        border-radius: 999px;
+        padding: 7px 16px;
+      }
+      .tabs button[aria-selected="true"] {
+        background: var(--ink);
+        color: var(--fog);
+        border-color: var(--ink);
+      }
+
+      .grid {
+        columns: 3 280px;
+        column-gap: 14px;
+      }
+      .grid button {
+        display: block;
+        width: 100%;
+        margin-bottom: 14px;
+        padding: 0;
+        border: 0;
+        background: var(--tile);
+        cursor: zoom-in;
+        break-inside: avoid;
+      }
+      .grid img {
+        width: 100%;
+        height: auto;
+      }
+      .grid .empty {
+        aspect-ratio: 4 / 5;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 16px;
+        font-size: 13px;
+        color: var(--stone);
+      }
+      .caption {
+        display: block;
+        text-align: left;
+        font-size: 13px;
+        color: var(--stone);
+        padding: 6px 2px 0;
+        background: var(--fog);
+      }
+
+      /* ===== Services / contact ===== */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(32px, 6vw, 96px);
+        align-items: start;
+      }
+      .services {
+        list-style: none;
+        margin-top: 20px;
+      }
+      .services li {
+        padding: 14px 0;
+        border-top: 1px solid color-mix(in srgb, var(--stone) 40%, transparent);
+      }
+      .services li strong {
+        display: block;
+        font-weight: 650;
+      }
+      .services li span {
+        color: var(--stone);
+        font-size: 15px;
+      }
+      .contact a.big {
+        display: inline-block;
+        margin-top: 18px;
+        font-size: clamp(22px, 2.6vw, 30px);
+        font-weight: 650;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 5px;
+      }
+      .contact p {
+        margin-top: 14px;
+        color: var(--stone);
+      }
+
+      footer {
+        padding: 28px var(--gutter);
+        font-size: 14px;
+        color: var(--stone);
+      }
+
+      /* ===== Lightbox ===== */
+      dialog {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        max-width: 94vw;
+        max-height: 94vh;
+        margin: auto;
+      }
+      dialog::backdrop {
+        background: rgba(8, 14, 17, 0.92);
+      }
+      dialog img {
+        max-width: 94vw;
+        max-height: 86vh;
+        object-fit: contain;
+      }
+      dialog p {
+        color: #cfd8db;
+        font-size: 14px;
+        padding-top: 10px;
+      }
+      dialog .close {
+        position: fixed;
+        top: 16px;
+        right: 20px;
+        font: inherit;
+        font-size: 15px;
+        background: transparent;
+        color: #fff;
+        border: 1px solid #fff;
+        border-radius: 999px;
+        padding: 6px 14px;
+        cursor: pointer;
+      }
+
+      /* ===== Mobile ===== */
+      @media (max-width: 720px) {
+        .hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+        .hero figure {
+          height: 52vh;
+        }
+        .hero .seam {
+          display: none;
+        }
+        .hero .city h1 {
+          right: auto;
+          left: 16px;
+          text-align: left;
+        }
+        .nav ul {
+          gap: 14px;
+        }
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Main">
+      <a class="name" href="#top">Nautica</a>
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO: two strongest images. Left = an event moment, right = a portrait -->
+    <header class="hero" id="top">
+      <figure class="city">
+        <img
+          src="street-graffiti.jpg"
+          alt="Graffiti artist painting a wall, spray cans in the foreground"
+        />
+        <h1>Creators<br />at work,</h1>
+      </figure>
+      <div class="seam" aria-hidden="true"></div>
+      <figure class="wild">
+        <img
+          src="portrait-mural-1.jpg"
+          alt="Portrait in front of a large painted mural"
+        />
+        <h1>people<br />up close.</h1>
+      </figure>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p>
+          I'm Nautica, a Chicago photographer. I'm drawn to people in the middle
+          of making something: painters, performers, worship leaders, and the
+          creators interviewing them.
+        </p>
+        <p>
+          Worship nights, holiday performances, a client mid-conversation: I'm
+          after the same thing every time, the real moment, framed cleanly.
+        </p>
+      </section>
+
+      <section id="work" aria-labelledby="work-title">
+        <div class="gallery-head">
+          <h2 id="work-title">Work</h2>
+          <div class="tabs" role="tablist" aria-label="Filter photos">
+            <button role="tab" aria-selected="true" data-filter="all">
+              All
+            </button>
+            <button role="tab" aria-selected="false" data-filter="events">
+              Events
+            </button>
+            <button role="tab" aria-selected="false" data-filter="brand">
+              Brand sessions
+            </button>
+            <button role="tab" aria-selected="false" data-filter="portraits">
+              Portraits
+            </button>
+            <button role="tab" aria-selected="false" data-filter="street">
+              Street and travel
+            </button>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <section id="services" class="two-col">
+        <div>
+          <h2>What I shoot</h2>
+          <ul class="services">
+            <li>
+              <strong>Events</strong
+              ><span
+                >Community gatherings, launches, church and nonprofit
+                events.</span
+              >
+            </li>
+            <li>
+              <strong>Brand sessions</strong
+              ><span
+                >Headshots and lifestyle images for coaches, therapists, and
+                small businesses.</span
+              >
+            </li>
+            <li>
+              <strong>Portraits</strong
+              ><span
+                >Studio or on location, for professionals and creatives.</span
+              >
+            </li>
+            <li>
+              <strong>Wildlife and landscape</strong
+              ><span
+                >Birds and nature around Chicago and the national parks.</span
+              >
+            </li>
+            <li>
+              <strong>Websites</strong
+              ><span
+                >I also build websites, so your photos land somewhere that shows
+                them off.</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="contact" id="contact">
+          <h2>Let's work together</h2>
+          <a class="big" href="mailto:Nautica17@Icloud.com"
+            >Nautica17@Icloud.com</a
+          >
+          <p>
+            Instagram:
+            <a href="https://instagram.com/NautGeoWild">@NautGeoWild</a>
+          </p>
+          <p>Based in Chicago.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>&copy; <span id="year"></span> Nautica Photography</footer>
+
+    <dialog id="lightbox" aria-label="Photo viewer">
+      <button class="close" type="button">Close</button>
+      <img alt="" />
+      <p></p>
+    </dialog>
+
+    <script>
+      /* =========================================================
+       EDIT YOUR PHOTOS HERE
+       Put image files in the /images folder and list them below.
+       category: "events" | "brand" | "portraits" | "street"
+       Order here = order on the page, so lead with your best.
+       ========================================================= */
+      const PHOTOS = [
+        {
+          src: "street-mural-artist.jpg",
+          category: "street",
+          caption: "Artist at work on a live mural",
+        },
+        {
+          src: "event-interview.jpg",
+          category: "events",
+          caption: "On-the-spot interview",
+        },
+        {
+          src: "event-worship-leader.jpg",
+          category: "events",
+          caption: "Worship night",
+        },
+        {
+          src: "portrait-mural-1.jpg",
+          category: "portraits",
+          caption: "Mural portrait",
+        },
+        {
+          src: "event-carolers.jpg",
+          category: "events",
+          caption: "Holiday carolers in the plaza",
+        },
+        {
+          src: "brand-session.jpg",
+          category: "brand",
+          caption: "Brand session, client conversation",
+        },
+        {
+          src: "street-graffiti.jpg",
+          category: "street",
+          caption: "Graffiti artist mid-piece",
+        },
+        {
+          src: "event-high-five.jpg",
+          category: "events",
+          caption: "Community night",
+        },
+        {
+          src: "portrait-caroler-1.jpg",
+          category: "portraits",
+          caption: "Caroler portrait",
+        },
+        {
+          src: "brand-green-chair.jpg",
+          category: "brand",
+          caption: "Brand session",
+        },
+        {
+          src: "event-worship-room.jpg",
+          category: "events",
+          caption: "Worship night",
+        },
+        {
+          src: "street-festival-reading.jpg",
+          category: "street",
+          caption: "Street festival",
+        },
+        {
+          src: "portrait-mural-2.jpg",
+          category: "portraits",
+          caption: "Mural portrait",
+        },
+        {
+          src: "event-gloves.jpg",
+          category: "events",
+          caption: "Holiday carolers, detail",
+        },
+        {
+          src: "brand-arch.jpg",
+          category: "brand",
+          caption: "Brand session",
+        },
+        {
+          src: "event-conversation.jpg",
+          category: "events",
+          caption: "Community night",
+        },
+        {
+          src: "street-festival-robe.jpg",
+          category: "street",
+          caption: "Street festival",
+        },
+        {
+          src: "event-carolers-kid.jpg",
+          category: "events",
+          caption: "Holiday carolers",
+        },
+        {
+          src: "brand-pose.jpg",
+          category: "brand",
+          caption: "Brand session",
+        },
+        {
+          src: "event-bible.jpg",
+          category: "events",
+          caption: "Worship night, detail",
+        },
+        {
+          src: "portrait-caroler-2.jpg",
+          category: "portraits",
+          caption: "Caroler portrait",
+        },
+        {
+          src: "street-festival-hat.jpg",
+          category: "street",
+          caption: "Street festival",
+        },
+        {
+          src: "brand-notes.jpg",
+          category: "brand",
+          caption: "Brand session",
+        },
+        {
+          src: "event-scrooge.jpg",
+          category: "events",
+          caption: "Holiday carolers",
+        },
+        {
+          src: "brand-seated.jpg",
+          category: "brand",
+          caption: "Brand session",
+        },
+        {
+          src: "street-hot-dog.jpg",
+          category: "street",
+          caption: "Late-night hot dog stand",
+        },
+      ];
+
+      const grid = document.getElementById("grid");
+      const box = document.getElementById("lightbox");
+      const boxImg = box.querySelector("img");
+      const boxCap = box.querySelector("p");
+
+      function render(filter) {
+        grid.innerHTML = "";
+        PHOTOS.filter((p) => filter === "all" || p.category === filter).forEach(
+          (p) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.setAttribute("aria-label", "Open photo: " + p.caption);
+
+            const img = new Image();
+            img.src = p.src;
+            img.alt = p.caption;
+            img.loading = "lazy";
+            img.onerror = () => {
+              // Placeholder until the file exists
+              const empty = document.createElement("span");
+              empty.className = "empty";
+              empty.textContent = "Add photo: " + p.src;
+              img.replaceWith(empty);
+              btn.disabled = true;
+              btn.style.cursor = "default";
+            };
+
+            const cap = document.createElement("span");
+            cap.className = "caption";
+            cap.textContent = p.caption;
+
+            btn.append(img, cap);
+            btn.addEventListener("click", () => {
+              boxImg.src = p.src;
+              boxImg.alt = p.caption;
+              boxCap.textContent = p.caption;
+              box.showModal();
+            });
+            grid.append(btn);
+          },
+        );
+      }
+
+      document.querySelectorAll(".tabs button").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tabs button")
+            .forEach((t) => t.setAttribute("aria-selected", "false"));
+          tab.setAttribute("aria-selected", "true");
+          render(tab.dataset.filter);
+        });
+      });
+
+      box.querySelector(".close").addEventListener("click", () => box.close());
+      box.addEventListener("click", (e) => {
+        if (e.target === box) box.close();
+      });
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+      render("all");
+    </script>
+  </body>
+</html>
